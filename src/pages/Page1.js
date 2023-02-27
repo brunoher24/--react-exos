@@ -8,7 +8,18 @@ function Page1() {
     const [formObject, setFormObject] = useState({
         email: "",
         password: "",
-        country: ""
+        country: "",
+    });
+
+    const [formErrors, setFormErrors] = useState({
+        email: false,
+        password: false,
+        country: false,
+        acceptCGU: false
+    });
+
+    const [checkboxValues, setCheckboxValues] = useState({
+        acceptCGU: false
     });
 
     const valueChanged = event => {
@@ -18,9 +29,27 @@ function Page1() {
         setFormObject(formObject_);
     };
 
+    const checkChanged = event => {
+        const {name, checked} = event.target;
+        const checkboxValues_ = {...checkboxValues};
+        checkboxValues_[name] = checked;
+        setCheckboxValues(checkboxValues_);
+    }
+
+    const onSubmit = event => {
+        event.preventDefault();
+        console.log(checkboxValues.acceptCGU);
+        const formErrors_ = {...formErrors};
+        formErrors_.email = formObject.email.trim().length < 6;
+        formErrors_.password = formObject.password.trim().length < 6;
+        formErrors_.country = formObject.country.trim().length < 2;
+        formErrors_.acceptCGU = !checkboxValues.acceptCGU;
+        setFormErrors(formErrors_);
+    };
+
     return (
         <div className='Page1'>
-           <form>
+           <form onSubmit={onSubmit}>
                 <h1>
                     Créer un compte
                 </h1>
@@ -30,12 +59,14 @@ function Page1() {
                         Email:
                     </label>
                     <input id="email-input" type="email" name="email" onChange={valueChanged} value={formObject.email} />
+                    {formErrors.email && <p className="error-msg"> Adresse mail non valide</p>}
                 </div>
                 <div className='form-field'>
                     <label htmlFor="password-input">
                         Mot de passe:
                     </label>
                     <input id="password-input" type="password" name="password" onChange={valueChanged} value={formObject.password} />
+                    {formErrors.password && <p className="error-msg">Le mot de passe doit contenir au moins 6 caractères</p>}
                 </div>
                 <div className='form-field'>
                     <label htmlFor="country-select">
@@ -47,6 +78,14 @@ function Page1() {
                             <option key={country.code} value={country.code}>{country.name}</option>
                         ))}
                     </select>
+                    {formErrors.country && <p className="error-msg">Vous devez sélectionner un pays</p>}
+                </div>
+                <div className='form-field'>
+                    <label htmlFor="accept-cgu-checkbox">
+                            J'accepte les conditions générales d'utilisation
+                    </label>
+                    <input id="accept-cgu-checkbox" type="checkbox" name="acceptCGU" onChange={checkChanged} value={checkboxValues.acceptCGU} />
+                    {formErrors.acceptCGU && <p className="error-msg">Vous devez accepter les CGU</p>}
                 </div>
 
                 <input type="submit" value="S'inscrire"/>
