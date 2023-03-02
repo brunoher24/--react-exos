@@ -1,6 +1,8 @@
 import './Page1.css';
 import countries from '../utils/countries';
 import { useState } from 'react';
+import Header from '../components/Header';
+
 
 
 function Page1() {
@@ -48,6 +50,7 @@ function Page1() {
 
     return (
         <div className='Page1'>
+            <Header/>
            <form onSubmit={onSubmit}>
                 <h1>
                     Créer un compte

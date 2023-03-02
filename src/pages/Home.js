@@ -12,7 +12,7 @@ function Home() {
       .then(json => {
         console.log(json);
         setPosts(json);
-      })
+      });
     }, []);
 
     return (
