@@ -38,7 +38,6 @@ function Page1() {
 
     const onSubmit = event => {
         event.preventDefault();
-        console.log(checkboxValues.acceptCGU);
         const formErrors_ = {...formErrors};
         formErrors_.email = formObject.email.trim().length < 6;
         formErrors_.password = formObject.password.trim().length < 6;
