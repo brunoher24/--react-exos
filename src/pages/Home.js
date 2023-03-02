@@ -1,6 +1,7 @@
 import './Home.css';
 import Header from '../components/Header';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Home() {
 
@@ -21,7 +22,9 @@ function Home() {
             <h1>Page d'accueil</h1>
             <ul>
                 {posts.length > 0 && posts.map(post => (
-                    <li key={post.id}>{post.title}</li>
+                    <li key={post.id}>
+                        <Link to={`/article/${post.id}`}>{post.title}</Link>
+                    </li>
                 ))}
             </ul>
 
